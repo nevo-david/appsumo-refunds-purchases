@@ -45,7 +45,7 @@ const refunds = async () => {
     const newCodesToRefund = difference(codes, oldCodes);
     if (newCodesToRefund.length) {
         oldSend([node.env.SEND_TO_EMAILS.split(',')], 'New Refunds', `There are ${newCodesToRefund.length} new refunds: ${newCodesToRefund.join(', ')}`)
-        saveCodes('refunds', newCodesToRefund);
+        saveCodes('refunds', codes);
         return Promise.all(newCodesToRefund.map((code) => {
             return axios.get(node.env.WEBSITE_REFUND_URL.replace(':code', code))
         }));
@@ -66,7 +66,7 @@ const newPurchases = async () => {
     const newCodesToRefund = difference(codes, oldCodes);
     if (newCodesToRefund.length) {
         oldSend([node.env.SEND_TO_EMAILS.split(',')], 'New Purchases', `There are ${codes.length - refunds.length} in the system >> ${newCodesToRefund.length} new purchases`);
-        saveCodes('purchases', newCodesToRefund);
+        saveCodes('purchases', codes);
     }
 }
 
